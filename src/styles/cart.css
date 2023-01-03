@@ -1,0 +1,42 @@
+table tr td img {
+    width: 80px !important;
+    height: 80px !important;
+    object-fit: contain;
+}
+
+.cart-qty {
+    display: flex;
+    align-items: center;
+}
+
+td i {
+    cursor: pointer;
+}
+
+td span i {
+    font-size: 18px;
+}
+
+td span .minus {
+    margin-right: 6px;
+}
+
+td span .plus {
+    margin-left: 6px;
+}
+
+
+td,th {
+    color: var(--primary-color)
+}
+
+.btn__checkOut {
+    padding: 0;
+    width: 100%;
+}
+
+.checkOut {
+    display: block;
+    width: 100%;
+    line-height: 40px;
+}
