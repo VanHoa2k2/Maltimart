@@ -57,8 +57,6 @@ const AddProduct = () => {
       setLoading(false);
       toast.error("product not added!");
     }
-
-    // console.log(product);
   };
 
   return (

@@ -1,19 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import { motion } from "framer-motion";
 import "../../styles/productCard.css";
 import { Col } from "reactstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import { useDispatch } from "react-redux";
 import { cartActions } from "../../redux/slices/cartSlice";
 import { favoriteActions } from "../../redux/slices/favoriteSlice";
 
-// const productFromLocalStorage = JSON.parse(localStorage.getItem("productList"))
-
 const ProductCard = ({ item }) => {
-  // console.log(productFromLocalStorage)
+  const navigate = useNavigate();
   const dispatch = useDispatch();
    
   function addToCart() {
@@ -26,25 +24,6 @@ const ProductCard = ({ item }) => {
         quantity: 1,
       })
     );
-
-    // const objectItem = {
-    //   id: item.id,
-    //   productName: item.productName,
-    //   price: item.price,
-    //   imgUrl: item.imgUrl,
-    //   quantity: 1,
-    // };
-
-    // const productList = localStorage.getItem("productList");
-
-
-    // if (productList) {
-    //   const arr = JSON.parse(productList);
-    //   arr.push((objectItem));
-    //   localStorage.setItem("productList", JSON.stringify(arr));
-    // } else {
-    //   localStorage.setItem("productList", JSON.stringify([objectItem]));
-    // }
     toast.success("Product added to the cart");
   }
 
@@ -67,7 +46,7 @@ const ProductCard = ({ item }) => {
       <div className="product__item">
         <div className="product__img">
           <Link to={`/shop/${item.id}`}>
-            <motion.img whileHover={{ scale: 0.9 }} src={item.imgUrl} alt="" />
+            <motion.img whileHover={{ scale: 0.9 }} src={item.imgUrl} alt=""/>
           </Link>
         </div>
         <div className="p-1 product__info">

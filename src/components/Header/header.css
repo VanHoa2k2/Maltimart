@@ -207,7 +207,7 @@
 .profile__actions {
     width: 140px;
     z-index: 10;
-    padding: 4px 0 4px 16px;
+    padding: 4px 0 4px;
     background: var(--card-bg-01);
     line-height: 30px;
     box-shadow: 5px 4px 8px #bebdbd;
@@ -218,11 +218,19 @@
 .profile__actions a {
     display: flex;
     align-items: center;
+    padding-left: 16px;
 }
 
 .profile__actions span i,
 .profile__actions a i {
     margin-right: 4px;
+    font-size: 16px;
+}
+
+.profile__actions span:hover,
+.profile__actions a:hover {
+    color: var(--primary-color);
+    background: #f0ddd1;
 }
 
 .logOut {

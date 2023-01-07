@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 import logo from "../../assets/images/eco-logo.png";
 import userIcon from "../../assets/images/user-icon.png";
 import noLoveProduct from "../../assets/images/no-love-product.png";
-import products from "../../assets/data/products";
+// import products from "../../assets/data/products";
 
 import { Container, Row } from "reactstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,6 +21,8 @@ import "tippy.js/dist/tippy.css";
 
 import { favoriteActions } from "../../redux/slices/favoriteSlice";
 import { cartActions } from "../../redux/slices/cartSlice";
+
+import useGetData from "../../custom-hooks/useGetData";
 
 const nav__links = [
   {
@@ -38,6 +40,7 @@ const nav__links = [
 ];
 
 const Header = () => {
+  const {data: products, loading} = useGetData('products');
   const headerRef = useRef(null);
   const totalQuantity = useSelector((state) => state.cart.totalQuantity);
   const lovesProduct = useSelector((state) => state.favorite.favoriteItems);
@@ -96,10 +99,6 @@ const Header = () => {
   const navigateToCart = () => {
     navigate("/cart");
   };
-
-  // const toggleProfileActions = () => {
-  //   profileActionRef.current.classList.toggle("show__profileActions");
-  // };
 
   const dispatch = useDispatch();
   // Delete Love Product
@@ -242,9 +241,14 @@ const Header = () => {
                     {...attrs}
                   >
                     {currentUser ? (
-                      <span className="logOut" onClick={logout}>
-                        <i className="ri-logout-box-r-line"></i> Logout
-                      </span>
+                      <div className="d-flex justify-content-center flex-column">
+                        <span className="logOut" onClick={logout}>
+                          <i className="ri-logout-box-r-line"></i> Logout
+                        </span>
+                        <Link to="/dashboard" onClick={() => setVisible(false)}>
+                          <i className="ri-folder-user-line"></i> Dashboard
+                        </Link>
+                      </div>
                     ) : (
                       <div className="d-flex justify-content-center flex-column">
                         <Link to="/signup" onClick={() => setVisible(false)}>
