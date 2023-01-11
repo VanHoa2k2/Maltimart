@@ -3,7 +3,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import "../../styles/productCard.css";
 import { Col } from "reactstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import { useDispatch } from "react-redux";
@@ -11,13 +11,12 @@ import { cartActions } from "../../redux/slices/cartSlice";
 import { favoriteActions } from "../../redux/slices/favoriteSlice";
 
 const ProductCard = ({ item }) => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
    
   function addToCart() {
     dispatch(
       cartActions.addItem({
-        id: item.id,
+        id: item._id,
         productName: item.productName,
         price: item.price,
         imgUrl: item.imgUrl,
@@ -30,7 +29,7 @@ const ProductCard = ({ item }) => {
   const addToFavorite = () => {
     dispatch(
       favoriteActions.addFavoriteItem({
-        id: item.id,
+        id: item._id,
         productName: item.productName,
         category: item.category,
         imgUrl: item.imgUrl,
@@ -45,13 +44,13 @@ const ProductCard = ({ item }) => {
     <Col lg="3" md="4" className="mb-2">
       <div className="product__item">
         <div className="product__img">
-          <Link to={`/shop/${item.id}`}>
+          <Link to={`/shop/${item._id}`}>
             <motion.img whileHover={{ scale: 0.9 }} src={item.imgUrl} alt=""/>
           </Link>
         </div>
         <div className="p-1 product__info">
           <h3 className="product__name">
-            <Link to={`/shop/${item.id}`}>{item.productName}</Link>
+            <Link to={`/shop/${item._id}`}>{item.productName}</Link>
           </h3>
           <span>{item.category}</span>
         </div>

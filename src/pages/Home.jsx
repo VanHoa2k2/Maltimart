@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 
+import axios from "axios";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-// import products from "../assets/data/products";
 import Helmet from "../components/Helmet/Helmet";
 import "../styles/home.css";
 import { Col, Container, Row } from "reactstrap";
@@ -12,10 +12,22 @@ import ProductsList from "../components/UI/ProductsList";
 import Clock from "../components/UI/Clock";
 import counterImg from "../assets/images/counter-timer-img.png";
 
-import useGetData from "../custom-hooks/useGetData";
+// import useGetData from "../custom-hooks/useGetData";
 
 const Home = () => {
-  const {data: products, loading} = useGetData('products');
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchApi = async() => {
+      const res = await axios.get("https://json-products-5pbv94v77-vanhoa2k2.vercel.app/v1/product")
+      setProducts(res.data)
+      setLoading(false)
+    }
+    fetchApi()
+  },[])
+
+  // const {data: products, loading} = useGetData('products');
   const [trendingProducts, setTrendingProducts] = useState([]);
   const [bestSalesProducts, setBestSalesProducts] = useState([]);
   const [mobileProducts, setMobileProducts] = useState([]);

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 import { Container, Row, Col } from "reactstrap";
 import CommonSection from "../components/UI/CommonSection";
@@ -7,14 +7,26 @@ import Helmet from "../components/Helmet/Helmet";
 import ProductsList from "../components/UI/ProductsList";
 import "../styles/shop.css";
 
-import useGetData from "../custom-hooks/useGetData";
+// import useGetData from "../custom-hooks/useGetData";
+import axios from "axios";
 
 const Shop = () => {
-  const { data: products, loading } = useGetData("products");
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchApi = async() => {
+      const res = await axios.get("https://json-products-5pbv94v77-vanhoa2k2.vercel.app/v1/product")
+      setProducts(res.data)
+      setLoading(false)
+    }
+    fetchApi()
+  },[])
+
+  // const { data: products, loading } = useGetData("products");
   const sortRef = useRef();
   const [productsData, setProductsData] = useState(products);
-  console.log(products);
-  console.log(productsData);
+
   const handleFilter = (e) => {
     const filterValue = e.target.value;
 

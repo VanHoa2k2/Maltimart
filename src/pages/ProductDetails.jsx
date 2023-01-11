@@ -11,51 +11,60 @@ import ProductsList from "../components/UI/ProductsList";
 import { useDispatch } from "react-redux";
 import { cartActions } from "../redux/slices/cartSlice";
 import { toast } from 'react-toastify';
+import axios from "axios";
 
-import {db} from '../firebase.config'
-import {doc,getDoc} from 'firebase/firestore'
-import useGetData from "../custom-hooks/useGetData";
+// import {db} from '../firebase.config'
+// import {doc,getDoc} from 'firebase/firestore'
+// import useGetData from "../custom-hooks/useGetData";
+
+
 
 const ProductDetails = () => {
+  const { id } = useParams();
+  const [products, setProducts] = useState([]);
+  useEffect(() => {
+    const fetchApi = async() => {
+      const res = await axios.get("https://json-products-5pbv94v77-vanhoa2k2.vercel.app/v1/product")
+      setProducts(res.data)
+      }
+      fetchApi()
+  },[])
+  const product = products.length > 0 && products.find((item) => item._id === id); 
   const [qty, setQty] = useState(1)
 
-  const [product, setProduct] = useState({})
+  // const [product, setProduct] = useState({})
   const [tab, setTab] = useState("desc");
   const reviewUser = useRef("");
   const reviewMsg = useRef("");
   const [rating, setRating] = useState(null);
   const dispatch = useDispatch();
 
-  const { id } = useParams();
-  const {data: products} = useGetData('products')
-  // const product = products.find((item) => item.id === id);
+  // const {data: products} = useGetData('products')
+  // const docRef = doc(db, 'products', id)
 
-  const docRef = doc(db, 'products', id)
+  // useEffect(() => {
+  //   const getProduct = async()=> {
+  //     const docSnap = await getDoc(docRef)
 
-  useEffect(() => {
-    const getProduct = async()=> {
-      const docSnap = await getDoc(docRef)
-
-      if(docSnap.exists()) {
-        setProduct(docSnap.data())
-      } else {
-        console.log('no product!')
-      }
-    }
-    getProduct()
-  },[id])
+  //     if(docSnap.exists()) {
+  //       setProduct(docSnap.data())
+  //     } else {
+  //       console.log('no product!')
+  //     }
+  //   }
+  //   getProduct()
+  // },[id])
 
   const {
     imgUrl,
     productName,
     price,
-    // avgRating,
-    // reviews,
+    avgRating,
+    reviews,
     description,
     shortDesc,
     category,
   } = product;
-
   const relatedProducts = products.filter((item) => item.category === category);
 
   const submitHandler = (e) => {
@@ -132,7 +141,7 @@ const ProductDetails = () => {
                     </span>
                   </div>
                   <p>
-                    {/* (<span>{avgRating}</span> ratings) */}
+                    (<span>{avgRating}</span> ratings)
                   </p>
                 </div>
               </div>
@@ -192,7 +201,7 @@ const ProductDetails = () => {
               ) : (
                 <div className="product__review mt-5">
                   <div className="review__wrapper">
-                    {/* <ul>
+                    <ul>
                       {reviews.map((item, index) => (
                         <li key={index} className="mb-4">
                           <h6>Hoa Pham</h6>
@@ -200,7 +209,7 @@ const ProductDetails = () => {
                           <p>{item.text}</p>
                         </li>
                       ))}
-                    </ul> */}
+                    </ul>
 
                     <div className="review__form">
                       <h4>Leave your experience</h4>

@@ -8,6 +8,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "@tippyjs/react": "^4.2.6",
+    "axios": "^1.2.2",
     "bootstrap": "^5.2.1",
     "firebase": "^9.13.0",
     "formik": "^2.2.9",

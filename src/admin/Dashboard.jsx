@@ -1,12 +1,20 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Container, Row, Col } from "reactstrap";
 import '../styles/dashboard.css'
 
 import useGetData from "../custom-hooks/useGetData";
+import axios from 'axios';
 
 const Dashboard = () => {
-
-  const {data: products} = useGetData('products');
+  const [products, setProducts] = useState([]);
+  useEffect(() => {
+    const fetchApi = async() => {
+      const res = await axios.get("https://json-products-5pbv94v77-vanhoa2k2.vercel.app/v1/product")
+      setProducts(res.data)
+    }
+    fetchApi()
+  },[])
+  // const {data: products} = useGetData('products');
   const {data: users} = useGetData('users');
 
   return (

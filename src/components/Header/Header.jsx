@@ -8,7 +8,6 @@ import { motion } from "framer-motion";
 import logo from "../../assets/images/eco-logo.png";
 import userIcon from "../../assets/images/user-icon.png";
 import noLoveProduct from "../../assets/images/no-love-product.png";
-// import products from "../../assets/data/products";
 
 import { Container, Row } from "reactstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -22,7 +21,8 @@ import "tippy.js/dist/tippy.css";
 import { favoriteActions } from "../../redux/slices/favoriteSlice";
 import { cartActions } from "../../redux/slices/cartSlice";
 
-import useGetData from "../../custom-hooks/useGetData";
+// import useGetData from "../../custom-hooks/useGetData";
+import axios from "axios";
 
 const nav__links = [
   {
@@ -40,7 +40,17 @@ const nav__links = [
 ];
 
 const Header = () => {
-  const {data: products, loading} = useGetData('products');
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchApi = async() => {
+      const res = await axios.get("https://json-products-5pbv94v77-vanhoa2k2.vercel.app/v1/product")
+      setProducts(res.data)
+    }
+    fetchApi()
+  },[])
+
+  // const {data: products, loading} = useGetData('products');
   const headerRef = useRef(null);
   const totalQuantity = useSelector((state) => state.cart.totalQuantity);
   const lovesProduct = useSelector((state) => state.favorite.favoriteItems);
@@ -114,13 +124,13 @@ const Header = () => {
   const [idLoveItem, setIdLoveItem] = useState();
   const addToCart = () => {
     const loveItem = products.find((item) => {
-      return item.id === idLoveItem;
+      return item._id === idLoveItem;
     });
 
     loveItem &&
       dispatch(
         cartActions.addItem({
-          id: loveItem.id,
+          id: loveItem._id,
           productName: loveItem.productName,
           price: loveItem.price,
           imgUrl: loveItem.imgUrl,
